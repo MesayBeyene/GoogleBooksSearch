@@ -8,7 +8,11 @@ function BookSearch(props) {
     <div className="section">
       <div className="row">
         <div className="col s12 center">
-          <input type="text" onChange={event => props.userInput(event)} />
+          <input
+            type="text"
+            value={props.search}
+            onChange={event => props.userInput(event)}
+          />
           <button onClick={() => props.searchBook()}>Submit</button>
         </div>
       </div>

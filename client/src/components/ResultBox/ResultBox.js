@@ -1,9 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "../ResultBox/ResultBox.css";
 // import { PromiseProvider } from "mongoose";
 
 function ResultBox(props) {
+  let button = "";
+  if (props.saveBook) {
+    button = (
+      <button
+        onClick={() =>
+          props.saveBook({
+            title: props.title,
+            authors: props.authors,
+            description: props.description,
+            image: props.image,
+            link: props.link
+          })
+        }
+      >
+        Save
+      </button>
+    );
+  } else {
+    button = <button onClick={() => props.deleteBook(props.id)}>Delete</button>;
+  }
+
   return (
     <div className="section">
       <div className="row">
@@ -12,7 +32,10 @@ function ResultBox(props) {
           <p>{props.description}</p>
           <img src={props.image} />
           <p>{props.authors}</p>
-          <a href={props.link}>Link To Book</a>
+          <button>
+            <a href={props.link}>View</a>
+          </button>
+          {button}
         </div>
       </div>
     </div>

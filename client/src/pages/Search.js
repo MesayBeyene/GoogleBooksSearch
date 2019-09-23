@@ -11,9 +11,7 @@ class Search extends Component {
     books: [],
     search: ""
   };
-  componentDidMount() {
-    this.searchBook("java script");
-  }
+  componentDidMount() {}
 
   userInput = event => {
     console.log("userInput");
@@ -29,6 +27,7 @@ class Search extends Component {
       .search(query)
       .then(booksResult => {
         this.setState({
+          search: "",
           books: booksResult.data.items
         });
 
@@ -36,16 +35,30 @@ class Search extends Component {
       })
       .catch(err => console.log(err));
   };
+
+  saveBook = data => {
+    console.log("save book", data);
+    api.saveBook(data).then(response => {
+      console.log("book saved");
+    });
+  };
+
   render() {
     let bookItems = this.state.books.map((book, index) => {
+      let imageLinks = book.volumeInfo.imageLinks;
+      let image = "";
+      if (imageLinks) {
+        image = imageLinks.thumbnail;
+      }
       return (
         <ResultBox
           key={index}
           title={book.volumeInfo.title}
           description={book.volumeInfo.description}
-          image={book.volumeInfo.imageLinks.smallThumbnail}
+          image={image}
           authors={book.volumeInfo.authors}
           link={book.volumeInfo.infoLink}
+          saveBook={this.saveBook}
         />
       );
     });
@@ -53,7 +66,11 @@ class Search extends Component {
       <div>
         <Navbar />
         <Header />
-        <BookSearch userInput={this.userInput} searchBook={this.searchBook} />
+        <BookSearch
+          search={this.state.search}
+          userInput={this.userInput}
+          searchBook={this.searchBook}
+        />
         {bookItems}
         {/* <Textbox /> */}
         {/* <img src="./image/cute-cat.jpeg" alt="Placeholder" /> */}

@@ -3,8 +3,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8000;
 const app = express();
+const Books = require("./models/books");
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -33,6 +34,38 @@ mongoose
   });
 
 // Define API routes here
+app.post("/api/books", (req, res) => {
+  console.log(req.body);
+  Books.create(req.body)
+    .then(function(dbBook) {
+      console.log("Success");
+
+      res.json(dbBook);
+    })
+    .catch(function(err) {
+      console.log("There is an Error");
+    });
+});
+
+app.get("/api/books", (req, res) => {
+  Books.find()
+    .then(function(dbBooks) {
+      console.log("Success");
+
+      res.json(dbBooks);
+    })
+    .catch(function(err) {
+      console.log("There is an Error");
+    });
+});
+
+app.delete("/api/books/:id", (req, res) => {
+  console.log(req.params.id);
+  Books.findByIdAndDelete(req.params.id).then(function(response) {
+    console.log(response);
+    res.json(response);
+  });
+});
 
 // Send every other request to the React app
 // Define any API routes before this runs
