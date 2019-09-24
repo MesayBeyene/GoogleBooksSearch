@@ -7,6 +7,9 @@ function ResultBox(props) {
   if (props.saveBook) {
     button = (
       <button
+        class="btn waves-effect waves-light"
+        type="submit"
+        name="action"
         onClick={() =>
           props.saveBook({
             title: props.title,
@@ -21,7 +24,16 @@ function ResultBox(props) {
       </button>
     );
   } else {
-    button = <button onClick={() => props.deleteBook(props.id)}>Delete</button>;
+    button = (
+      <button
+        className="btn waves-effect waves-light"
+        type="submit"
+        name="action"
+        onClick={() => props.deleteBook(props.id)}
+      >
+        Delete
+      </button>
+    );
   }
 
   return (
@@ -32,8 +44,14 @@ function ResultBox(props) {
           <p>{props.description}</p>
           <img src={props.image} />
           <p>{props.authors}</p>
-          <button>
-            <a href={props.link}>View</a>
+          <button
+            className="btn waves-effect waves-light"
+            type="submit"
+            name="action"
+          >
+            <a className="resultView" href={props.link}>
+              View
+            </a>
           </button>
           {button}
         </div>
